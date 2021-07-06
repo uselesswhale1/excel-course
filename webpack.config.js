@@ -20,6 +20,12 @@ module.exports = (env, argv) => {
       new HtmlWebpackPlugin({
         template: './index.html'
       }),
+      // new CopyPlugin([
+      //   {
+      //     from: path.resolve(__dirname, 'src', 'favicon.ico'),
+      //     to: path.resolve(__dirname, 'dist')
+      //   },
+      // ]),
       new CopyPlugin({
         patterns: [
           {
@@ -32,6 +38,7 @@ module.exports = (env, argv) => {
         filename: filename('css')
       }),
       new CleanWebpackPlugin(),
+      new ESLintPlugin()
     ]
 
     if (isDev) {
@@ -84,8 +91,13 @@ module.exports = (env, argv) => {
               presets: ['@babel/preset-env']
             }
           }
-        }
-      ],
+        },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          loader: 'eslint-loader',
+        },
+      ]
     }
   }
 }
